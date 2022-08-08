@@ -138,7 +138,7 @@ private:
     }
 
 public:
-    Font(SDL_Renderer *renderer, int x, int y) : renderer(renderer), x(x), y(y), font(TTF_OpenFont("assets/lato/Lato-Light.ttf", 250))
+    Font(SDL_Renderer *renderer, int x, int y, int font_size) : renderer(renderer), x(x), y(y), font(TTF_OpenFont("assets/lato/Lato-Light.ttf", font_size))
     {
         color.r = 255;
         color.g = 255;
@@ -293,7 +293,7 @@ int main()
                               SDL_WINDOW_FULLSCREEN); // Create window
     SDL_SetHint(SDL_HINT_RENDER_DRIVER, "software");
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC); // Create renderer
-    font = new Font(renderer, monitor_width / 2, monitor_height / 2);
+    font = new Font(renderer, monitor_width / 2, monitor_height / 2, 200 * monitor_width / 1440);
     fifo = new Fifo();
     data = fifo->mem_read();
     font->change_text(data);
@@ -304,7 +304,6 @@ int main()
     // Update tick
     int updateTick = 0; // update info every 10 ticks
     // Application Loop
-
     while (!done)
     {
         Uint32 starttime = SDL_GetTicks();
