@@ -3,15 +3,21 @@
         {
             "name": "Mac",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "/opt/homebrew/Cellar/sdl2_image/2.0.5/include",
+                "/opt/homebrew/Cellar/sdl2/2.0.22/include",
+                "/opt/homebrew/Cellar/sdl2/2.0.22/include/SDL2",
+                "/opt/homebrew/Cellar/sdl2_ttf/2.20.0/include"
             ],
             "defines": [],
-            "macFrameworkPath": [],
-            "compilerPath": "/opt/homebrew/bin/gcc-11",
-            "cStandard": "gnu17",
-            "cppStandard": "gnu++17",
-            "intelliSenseMode": "macos-gcc-arm64",
-            "configurationProvider": "ms-vscode.makefile-tools"
+            "macFrameworkPath": [
+                "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks"
+            ],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "macos-clang-arm64",
+            "configurationProvider": "ms-vscode.cmake-tools"
         }
     ],
     "version": 4

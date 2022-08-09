@@ -9,8 +9,8 @@ all: main.o
 main.o: main.cpp
 	$(CC) $(INCLUDES) main.cpp -c -o obj/main.o $(CXXFLAGS)
 
-install: all
-	echo "Installed"
+install:
+	sudo ./install.sh
 
 clean:
 	rm -R obj/*
