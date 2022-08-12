@@ -10,11 +10,12 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 make: *** No rule to make target `all'.  Stop.
 
 
-# Make data base, printed on Mon Aug  8 13:11:37 2022
+# Make data base, printed on Thu Aug 11 15:50:37 2022
 
 # Variables
 
 # automatic
+ 
 <D = $(patsubst %/,%,$(dir $<))
 # automatic
 ?F = $(notdir $?)
@@ -37,36 +38,25 @@ MAKEFILE_LIST :=
 # environment
 __CFBundleIdentifier = com.microsoft.VSCode
 # environment
-INFOPATH = /opt/homebrew/share/info:
-# environment
-P9K_SSH = 0
-# environment
- 
 VSCODE_CWD = /
 # environment
-PATH = /Users/migecha/.rbenv/shims:/opt/local/bin:/opt/local/sbin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/migecha/Library/Android/sdk/bin:/Applications/VMware Fusion.app/Contents/Public:/usr/local/share/dotnet:/opt/X11/bin:~/.dotnet/tools:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/cmdline-tools/latest/bin:/Users/migecha/Library/Android/sdk/platform-tools:/Users/migecha/Library/Android/sdk/tools
+PATH = /usr/bin:/bin:/usr/sbin:/sbin
 # environment
-LSCOLORS = Gxfxcxdxbxegedabagacad
+LaunchInstanceID = A82EF5EF-3B1C-4C40-B634-5D8AE73AFDE4
 # environment
 ELECTRON_RUN_AS_NODE = 1
-# environment
-ANDROID_HOME = /Users/migecha/Library/Android/sdk
 # default
 .FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
 # environment
-SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.JKFxrzxxdD/Listeners
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.6jAyUvSQqh/Listeners
 # automatic
 %F = $(notdir $%)
 # environment
-DISPLAY = /private/tmp/com.apple.launchd.G8XbnNWsoR/org.xquartz:0
+DISPLAY = /private/tmp/com.apple.launchd.aZmUUGqrtH/org.xquartz:0
 # environment
 PWD = /Users/migecha/Projects/smartscreen
 # environment
-HOMEBREW_CELLAR = /opt/homebrew/Cellar
-# environment
 ORIGINAL_XDG_CURRENT_DESKTOP = undefined
-# environment
-MANPATH = /opt/local/share/man:/opt/homebrew/share/man::
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
@@ -80,8 +70,6 @@ LOGNAME = migecha
 # environment
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
-ZSH = /Users/migecha/.oh-my-zsh
-# environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
@@ -92,17 +80,14 @@ MAKE = $(MAKE_COMMAND)
 # default
 MAKECMDGOALS := all
 # environment
+ 
 SHLVL = 1
-# environment
-JAVA_HOME = /Library/Java/JavaVirtualMachines/temurin-8.jdk/Contents/Home
 # default
 MAKE_VERSION := 3.81
 # environment
 USER = migecha
 # makefile
 .DEFAULT_GOAL := 
-# environment
-LESS = -R
 # automatic
 %D = $(patsubst %/,%,$(dir $%))
 # default
@@ -125,28 +110,22 @@ MFLAGS = -Rrqp
 *D = $(patsubst %/,%,$(dir $*))
 # environment
 XPC_SERVICE_NAME = application.com.microsoft.VSCode.26656227.26656233
-# environment
-HOMEBREW_PREFIX = /opt/homebrew
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
 # automatic
 +F = $(notdir $+)
-# environment
-HOMEBREW_REPOSITORY = /opt/homebrew
 # environment
 __CF_USER_TEXT_ENCODING = 0x1F6:0x0:0x0
 # environment
 COMMAND_MODE = unix2003
 # default
 MAKEFILES := 
-# environment
-RBENV_SHELL = zsh
 # automatic
 <F = $(notdir $<)
 # environment
-PAGER = less
-# environment
 LC_ALL = C
+# environment
+SECURITYSESSIONID = 186b2
 # automatic
 ^F = $(notdir $^)
 # default
@@ -158,9 +137,9 @@ MAKELEVEL := 0
 # environment
 LANG = C
 # environment
-VSCODE_PID = 73077
+VSCODE_PID = 570
 # variable set hash-table stats:
-# Load=72/1024=7%, Rehash=0, Collisions=2/93=2%
+# Load=61/1024=6%, Rehash=0, Collisions=1/82=1%
 
 # Pattern-specific Variable Values
 
@@ -168,7 +147,8 @@ VSCODE_PID = 73077
 
 # Directories
 
-# . (device 16777231, inode 26663696): 7 files, no impossibilities.
+ 
+# . (device 16777232, inode 26663696): 7 files, no impossibilities.
 
 # 7 files, no impossibilities in 1 directories.
 
@@ -238,10 +218,11 @@ GNUmakefile:
 # No general (`VPATH' variable) search path.
 
 # # of strings in strcache: 0
+ 
 # # of strcache buffers: 0
 # strcache size: total = 0 / max = 0 / min = 4096 / avg = 0
 # strcache free: total = 0 / max = 0 / min = 4096 / avg = 0
 
-# Finished Make data base on Mon Aug  8 13:11:37 2022
+# Finished Make data base on Thu Aug 11 15:50:37 2022
 
  

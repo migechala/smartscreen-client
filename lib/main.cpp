@@ -8,9 +8,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <string>
+#include <thread>
 #include <algorithm>
 #include <cstdlib>
 #include <unistd.h>
+#include <sys/stat.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #define FPS 60
@@ -118,6 +120,54 @@ enum MODE
     WEATHER,
     CALENDER
 };
+class Resource
+{
+    static Resource *instance;
+    std::string resourcePath;
+    bool pathExists(std::string path)
+    {
+        struct stat buffer;
+        return (stat(path.c_str(), &buffer) == 0);
+    }
+
+public:
+    Resource()
+    {
+        std::string local = "";
+#ifdef __APPLE__
+        local = "local/";
+#endif
+        resourcePath = "/usr/" + local + "share/smartscreen/";
+        if (!pathExists(resourcePath))
+        {
+            resourcePath = "./";
+        }
+    }
+    static Resource *getInstance()
+    {
+        if (instance == nullptr)
+        {
+            instance = new Resource();
+        }
+        return instance;
+    }
+    std::string getPath()
+    {
+        return resourcePath;
+    }
+    void createFile(std::string relativePath)
+    {
+        std::string path = resourcePath + relativePath;
+        std::ofstream(path.c_str());
+    }
+    int deleteFile(std::string relativePath)
+    {
+        std::string path = resourcePath + relativePath;
+        return remove(path.c_str());
+    }
+};
+Resource *Resource::instance = nullptr;
+
 class Font
 {
     SDL_Renderer *renderer;
@@ -138,8 +188,16 @@ private:
     }
 
 public:
-    Font(SDL_Renderer *renderer, int x, int y, int font_size) : renderer(renderer), x(x), y(y), font(TTF_OpenFont("assets/lato/Lato-Light.ttf", font_size))
+    Font(SDL_Renderer *renderer, int x, int y, int font_size) : renderer(renderer), x(x), y(y)
     {
+        std::string path = Resource::getInstance()->getPath() + "assets/lato/Lato-Light.ttf";
+        std::cout << path << std::endl;
+
+        font = TTF_OpenFont(path.c_str(), font_size);
+        if (font == nullptr)
+        {
+            std::cout << "ERROR: unable to open assets folder." << std::endl;
+        }
         color.r = 255;
         color.g = 255;
         color.b = 255;
@@ -264,7 +322,7 @@ public:
     };
 };
 
-int main()
+int main(int argc, char *argv[])
 {
 
     SDL_Init(SDL_INIT_EVERYTHING); // Init SDL2
@@ -290,7 +348,7 @@ int main()
     window = SDL_CreateWindow("x",
                               SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                               monitor_width, monitor_height,
-                              SDL_WINDOW_FULLSCREEN); // Create window
+                              SDL_WINDOW_SHOWN); // Create window
     SDL_SetHint(SDL_HINT_RENDER_DRIVER, "software");
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC); // Create renderer
     font = new Font(renderer, monitor_width / 2, monitor_height / 2, 200 * monitor_width / 1440);
@@ -303,6 +361,29 @@ int main()
     Circle circles[x];
     // Update tick
     int updateTick = 0; // update info every 10 ticks
+    pid_t python_pid = -1;
+    auto run_script = [&python_pid](const char *file)
+    {
+        std::string path = Resource::getInstance()->getPath() + file;
+        std::cout << path << std::endl;
+        pid_t fk = fork();
+        if (!fk)
+        {
+            if (execl(path.c_str(), NULL) == -1)
+            {
+                perror("Failed to exec!\n");
+            }
+            python_pid = fk;
+        }
+        else if (fk == -1)
+        {
+            perror("fork");
+        }
+        int status;
+        wait(&status);
+        printf("child pid was %d, it exited with %d\n", fk, status);
+    };
+    std::thread python(run_script, "obj/smartscreen-python");
     // Application Loop
     while (!done)
     {
@@ -345,10 +426,7 @@ int main()
 
         Uint32 endtime = SDL_GetTicks();
         Uint32 deltatime = endtime - starttime;
-        if (deltatime > (1000 / FPS))
-        {
-        }
-        else
+        if (deltatime < (1000 / FPS))
         {
             usleep((1000000 / FPS) - deltatime);
         }
@@ -362,5 +440,9 @@ int main()
     //
     SDL_Quit();
     TTF_Quit();
+    //
+    Resource::getInstance()->createFile("end");
+    python.join();
+    Resource::getInstance()->deleteFile("end");
     return 0;
 }
