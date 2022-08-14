@@ -8,7 +8,7 @@ import python_weather
 import asyncio
 import requests
 import json
-
+from smartscreen import get_events
 import os.path
 
 
