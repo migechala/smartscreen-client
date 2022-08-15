@@ -73,15 +73,15 @@ CMakeFiles/smartmirror.dir/main.cpp.o: CMakeFiles/smartmirror.dir/flags.make
 CMakeFiles/smartmirror.dir/main.cpp.o: ../main.cpp
 CMakeFiles/smartmirror.dir/main.cpp.o: CMakeFiles/smartmirror.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/migecha/smartmirror/lib/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/smartmirror.dir/main.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/smartmirror.dir/main.cpp.o -MF CMakeFiles/smartmirror.dir/main.cpp.o.d -o CMakeFiles/smartmirror.dir/main.cpp.o -c /home/migecha/smartmirror/lib/main.cpp
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/smartmirror.dir/main.cpp.o -MF CMakeFiles/smartmirror.dir/main.cpp.o.d -o CMakeFiles/smartmirror.dir/main.cpp.o -c /home/migecha/smartmirror/lib/main.cpp
 
 CMakeFiles/smartmirror.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/smartmirror.dir/main.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/migecha/smartmirror/lib/main.cpp > CMakeFiles/smartmirror.dir/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/migecha/smartmirror/lib/main.cpp > CMakeFiles/smartmirror.dir/main.cpp.i
 
 CMakeFiles/smartmirror.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/smartmirror.dir/main.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/migecha/smartmirror/lib/main.cpp -o CMakeFiles/smartmirror.dir/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/migecha/smartmirror/lib/main.cpp -o CMakeFiles/smartmirror.dir/main.cpp.s
 
 # Object files for target smartmirror
 smartmirror_OBJECTS = \
