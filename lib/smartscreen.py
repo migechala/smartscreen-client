@@ -17,6 +17,7 @@ from googleapiclient.errors import HttpError
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
+
 def convert_time(time, timezone):
 
     from_zone = tz.gettz('UTC')
@@ -43,21 +44,24 @@ def get_events(user_id):
 
     try:
         service = build('calendar', 'v3', credentials=creds)
-        
-        timezone = service.settings().get(setting='timezone').execute()['value']
 
-        now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+        timezone = service.settings().get(
+            setting='timezone').execute()['value']
+
+        now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
         events_result = service.events().list(calendarId='primary', timeMin=now,
                                               maxResults=1, singleEvents=True,
                                               orderBy='startTime').execute()
         events = events_result.get('items', [])
         if not events:
-            return(" ", "No events!")
+            yield(" ", "No events!")
         for event in events:
-            start = str(event['start'].get('dateTime', event['start'].get('date')))
-            time = str(convert_time(start[start.find('T') + 1: start.find('T') + 5], timezone))
+            start = str(event['start'].get(
+                'dateTime', event['start'].get('date')))
+            time = str(convert_time(
+                start[start.find('T') + 1: start.find('T') + 5], timezone))
             start = start.replace(start[start.find('T'):], " at: " + time)
-            return(start, event['summary'])
+            yield(start, event['summary'])
 
     except HttpError as error:
         print('An error occurred: %s' % error)
@@ -76,12 +80,12 @@ class MyServer(BaseHTTPRequestHandler):
             if files.endswith(ext):
                 p = self._parseFile(files)
                 f = open(path_of_the_directory + '/' + files, "rb")
-                file[p["id"]] = [p["answer"], base64.urlsafe_b64encode(f.read())]
+                file[p["id"]] = [p["answer"],
+                                 base64.urlsafe_b64encode(f.read())]
                 f.close()
         return file
-    
+
     base64.urlsafe_b64encode
-        
 
     def _set_headers(self):
         self.send_response(200, "Ok!")
@@ -100,17 +104,17 @@ class MyServer(BaseHTTPRequestHandler):
         elif ctype == 'application/x-www-form-urlencoded':
             length = int(self.headers['content-length'])
             postvars = parse_qs(
-                    self.rfile.read(length), 
-                    keep_blank_values=True)
+                self.rfile.read(length),
+                keep_blank_values=True)
         else:
             postvars = {}
         user = postvars[b"user"][0].decode("utf-8")
         data = get_events()
         self._set_headers()
 
-        self.wfile.write(data)            
+        self.wfile.write(data)
 
         return
-        
+
     def do_PUT(self):
         self.do_POST()

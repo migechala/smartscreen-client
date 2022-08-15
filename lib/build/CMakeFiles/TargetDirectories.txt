@@ -1,0 +1,7 @@
+/home/migecha/smartmirror/lib/build/CMakeFiles/smartmirror.dir
+/home/migecha/smartmirror/lib/build/CMakeFiles/edit_cache.dir
+/home/migecha/smartmirror/lib/build/CMakeFiles/rebuild_cache.dir
+/home/migecha/smartmirror/lib/build/CMakeFiles/list_install_components.dir
+/home/migecha/smartmirror/lib/build/CMakeFiles/install.dir
+/home/migecha/smartmirror/lib/build/CMakeFiles/install/local.dir
+/home/migecha/smartmirror/lib/build/CMakeFiles/install/strip.dir

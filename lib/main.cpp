@@ -13,10 +13,27 @@
 #include <cstdlib>
 #include <unistd.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #define FPS 60
+class DisplayData
+{
+    static DisplayData *instance;
 
+public:
+    DisplayData() {}
+    static DisplayData *getInstance()
+    {
+        if (instance == nullptr)
+        {
+            instance = new DisplayData();
+        }
+        return instance;
+    }
+    int width, height;
+};
+DisplayData *DisplayData::instance = nullptr;
 class Circle
 {
     std::vector<SDL_Color> colors;
@@ -36,10 +53,8 @@ public:
     Circle()
     {
         radius = random_number(20, 70);
-        SDL_DisplayMode display_mode;
-        SDL_GetCurrentDisplayMode(0, &display_mode);
-        window_x = display_mode.w;
-        window_y = display_mode.h;
+        window_x = DisplayData::getInstance()->width;
+        window_y = DisplayData::getInstance()->height;
         int xmax = window_x - radius - 1;
         int ymax = window_y - radius - 1;
         x = random_number(radius + 1, xmax);
@@ -202,10 +217,7 @@ public:
         color.g = 255;
         color.b = 255;
         color.a = 255;
-        SDL_DisplayMode display_mode;
-        SDL_GetCurrentDisplayMode(0, &display_mode);
-        window_width = display_mode.w;
-        window_height = display_mode.h;
+        SDL_GetRendererOutputSize(renderer, &window_width, &window_height);
     }
     ~Font()
     {
@@ -348,16 +360,21 @@ int main(int argc, char *argv[])
     window = SDL_CreateWindow("x",
                               SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                               monitor_width, monitor_height,
-                              SDL_WINDOW_SHOWN); // Create window
+                              SDL_WINDOW_FULLSCREEN); // Create window
     SDL_SetHint(SDL_HINT_RENDER_DRIVER, "software");
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_PRESENTVSYNC); // Create renderer
+    SDL_GetRendererOutputSize(renderer, &monitor_width, &monitor_height);
+
+    DisplayData::getInstance()->width = monitor_width;
+    DisplayData::getInstance()->height = monitor_height;
+
     font = new Font(renderer, monitor_width / 2, monitor_height / 2, 200 * monitor_width / 1440);
     fifo = new Fifo();
     data = fifo->mem_read();
     font->change_text(data);
 
     // cricle array
-    int x = (double(monitor_height * monitor_width) / 2) / double((1920 * 1080) / 2) * 20;
+    int x = (double(monitor_height * monitor_width) / 2) / double((1920 * 1080) / 2) * 10;
     Circle circles[x];
     // Update tick
     int updateTick = 0; // update info every 10 ticks
@@ -383,7 +400,7 @@ int main(int argc, char *argv[])
         wait(&status);
         printf("child pid was %d, it exited with %d\n", fk, status);
     };
-    std::thread python(run_script, "obj/smartscreen-python");
+    std::thread python(run_script, "build/smartscreen-python");
     // Application Loop
     while (!done)
     {
@@ -441,6 +458,7 @@ int main(int argc, char *argv[])
     SDL_Quit();
     TTF_Quit();
     //
+
     Resource::getInstance()->createFile("end");
     python.join();
     Resource::getInstance()->deleteFile("end");

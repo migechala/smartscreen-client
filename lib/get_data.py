@@ -25,32 +25,34 @@ def mem_write(str):
     if not isFifo():
         os.mkfifo("/tmp/fifo")
 
-    fifo_read = open('/tmp/fifo', 'w') #0 without buffering
+    fifo_read = open('/tmp/fifo', 'w')  # 0 without buffering
     fifo_read.write(str)
     fifo_read.close()
 
 
 def mem_read():
-    fifo_read = open('/tmp/fifo', 'r') #0 without buffering
+    fifo_read = open('/tmp/fifo', 'r')  # 0 without buffering
     result = fifo_read.read()
     fifo_read.close()
     return result
 
+
 async def getweather():
-    with open('settings.json', 'r+') as f:
-        data = json.load(f)
-        city = data['city'] 
-        state = data['state']
-        f.seek(0)
-        json.dump(data, f, indent=4)
-        f.truncate()
+    try:
+        with open('settings.json', 'r+') as f:
+            data = json.load(f)
+            city = data['city']
+            state = data['state']
+            f.seek(0)
+            json.dump(data, f, indent=4)
+            f.truncate()
 
-    client = python_weather.Client(format=python_weather.METRIC)
+        async with python_weather.Client(format=python_weather.METRIC) as client:
+            weather = await client.get(city + "," + state)
+    except:
+        return("")
+    return (str(weather.current.description) + " " + str(weather.current.temperature))
 
-    weather = await client.find(city + "," + state)
-    await client.close()
-    
-    return (str(weather.current.sky_text) + " " + str(weather.current.temperature))
 
 def fill_json():
 
@@ -67,6 +69,7 @@ def fill_json():
         json.dump(data, f, indent=4)
         f.truncate()
 
+
 def end():
     local = ""
     if platform.system() == "Darwin":
@@ -76,6 +79,7 @@ def end():
         return True
     return False
 
+
 if __name__ == "__main__":
     fill_json()
     time = 0
@@ -84,9 +88,9 @@ if __name__ == "__main__":
     timer_max = 10
     while True:
         timer = timer_max
-        while timer > 10:
+        while timer > 0:
             if end():
-                break;
+                break
             now = datetime.datetime.now()
             current_time = now.strftime("%H:%M")
             if time is not current_time:
@@ -96,10 +100,10 @@ if __name__ == "__main__":
             timer -= 1
         timer = timer_max
         if end():
-            break;
-        while timer > 10:
+            break
+        while timer > 0:
             if end():
-                break;
+                break
             now = loop.run_until_complete(asyncio.gather(getweather()))[0]
             if weather is not now:
                 weather = now
@@ -109,11 +113,12 @@ if __name__ == "__main__":
             timer -= 1
         timer = timer_max
         if end():
-            break;
+            break
         while timer > 0:
             if end():
-                break;
-            events = list(get_events())
+                break
+            events = list(get_events(1))
+            print(events[0])
             if events[0][0] == " ":
                 mem_write(events[0][1])
             else:
@@ -122,8 +127,9 @@ if __name__ == "__main__":
                     month_of_event = str(event_data[1])
                     day_of_event = str(event_data[2].split('T')[0])
                     name_of_event = str(i[1]).rstrip()
-                    mem_write(month_of_event + "|" + day_of_event + "|" + name_of_event)
+                    mem_write(month_of_event + "|" +
+                              day_of_event + "|" + name_of_event)
             sleep(1)
             timer -= 1
         if end():
-            break;
+            break
