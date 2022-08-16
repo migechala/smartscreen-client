@@ -2,3 +2,4 @@
 lib/obj
 lib/__pycache__
 token.json
+lib/build

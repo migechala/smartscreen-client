@@ -14,8 +14,8 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h>
+#include <SDL.h>
+#include <SDL_ttf.h>
 #define FPS 60
 class DisplayData
 {

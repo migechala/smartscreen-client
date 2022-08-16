@@ -8,4 +8,5 @@ cd lib/build
 cmake ..
 make
 cd ..
+./bash/compile_python.sh
 ./build/smartmirror
