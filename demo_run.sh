@@ -9,4 +9,4 @@ cmake ..
 make
 cd ..
 ./bash/compile_python.sh
-./build/smartmirror
+./build/smartscreen
