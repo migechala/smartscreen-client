@@ -17,8 +17,9 @@ from dateutil import tz
 
 
 
+
 def get_events():
-    print("")
+    return requests.get("http://127.0.0.1:8080").content.decode("utf-8")
 
 
 def convert_time(time, timezone):
@@ -134,10 +135,11 @@ if __name__ == "__main__":
         while timer > 0:
             if end():
                 break
-            events = list(get_events(1))
-            print(events[0])
+            events = list(get_events().split('|'))
             if events[0][0] == " ":
-                mem_write(events[0][1])
+                mem_write(events[1])
+                print(events[1])
+            
             else:
                 for i in events:
                     event_data = str(i[0]).split('-')
@@ -146,6 +148,7 @@ if __name__ == "__main__":
                     name_of_event = str(i[1]).rstrip()
                     mem_write(month_of_event + "|" +
                               day_of_event + "|" + name_of_event)
+            
             sleep(1)
             timer -= 1
         if end():
